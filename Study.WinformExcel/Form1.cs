@@ -2,6 +2,8 @@
 
 using ExcelDataReader;
 
+using Study.WinformExcel.Library;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,6 +24,13 @@ namespace Study.WinformExcel
             InitializeComponent();
         }
 
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            this.dataGridView1.ReadOnly = false;
+        }
+
         private void btnImport_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new())
@@ -36,61 +45,14 @@ namespace Study.WinformExcel
                     string fileFullPath = openFileDialog.FileName; // fullPath
                     txtFileName.Text = fileFullPath;
 
-                    using (XLWorkbook workBook = new(fileFullPath))
+                    dataGridView1.DataSource = ExcelHelper.GetExcelReaderToDataTable(fileFullPath);
+
+                    foreach (DataGridViewColumn column in dataGridView1.Columns)
                     {
-                        var workSheet = workBook.Worksheets.FirstOrDefault();
+                        //(DataTable)column.DataGridView.DataSource //casting 강제 형이 맞지 않거나 문제가 생기면 Exception
+                        //column.DataGridView.DataSource as DataTable //안되면 null
 
-                        DataTable dt = new DataTable();
-
-                        //컬럼 세팅
-                        var headerRow = workSheet.Row(1);
-                        for (int col = 1; col < 1000; col++)
-                        {
-                            //첫째줄을 가져와서
-                            var headerCell = headerRow.Cell(col);
-
-                            //column(열)의 수만큼 돌면서 값이 없으면 거기서 종료
-                            if (headerCell.Value?.ToString() == "")
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                dt.Columns.Add(new DataColumn()
-                                {
-                                    ColumnName = headerCell.Address.ColumnLetter,
-                                    Caption = headerCell.Value.ToString(),
-                                });
-                            }
-                        }
-
-                        //값 가져오기
-                        for (int row = 2; row < 100000; row++)
-                        {
-                            //순번값이 비어있으면 중지
-                            if (workSheet.Row(row).Cell(1).Value?.ToString() == "")
-                            {
-                                break;
-                            }
-
-                            DataRow newRow = dt.NewRow();
-                            for (int col = 1; col < dt.Columns.Count + 1; col++)
-                            {
-                                var cell = workSheet.Row(row).Cell(col);
-                                newRow[cell.Address.ColumnLetter] = cell.Value;
-                            }
-                            dt.Rows.Add(newRow);
-                        }
-
-                        dataGridView1.DataSource = dt;
-                        
-                        foreach(DataGridViewColumn column in dataGridView1.Columns)
-                        {
-                            //(DataTable)column.DataGridView.DataSource //casting 강제 형이 맞지 않거나 문제가 생기면 Exception
-                            //column.DataGridView.DataSource as DataTable //안되면 null
-
-                            column.HeaderText = (column.DataGridView.DataSource as DataTable)?.Columns[column.Name].Caption;
-                        }
+                        column.HeaderText = (column.DataGridView.DataSource as DataTable)?.Columns[column.Name].Caption;
                     }
                 }
             }
@@ -110,21 +72,31 @@ namespace Study.WinformExcel
                     string fileFullPath = openFileDialog.FileName; // fullPath
                     txtFileName.Text = fileFullPath;
 
-                    using (var fileStream = File.Open(fileFullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                    {
-                        var edr = ExcelReaderFactory.CreateOpenXmlReader(fileStream);
-
-                        var dataSet = edr.AsDataSet(new ExcelDataSetConfiguration()
-                        {
-                            ConfigureDataTable = tableReader => new ExcelDataTableConfiguration()
-                            {
-                                UseHeaderRow = true
-                            }
-                        });
-
-                        dataGridView1.DataSource = dataSet.Tables[0];
-                    }
+                    dataGridView1.DataSource = ExcelHelper.GetExcelReaderToDataTable(fileFullPath);
                 }
+            }
+        }
+
+       
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            string fileFullPath = txtFileName.Text;
+
+            using (XLWorkbook workBook = new(fileFullPath))
+            {
+                //0 1 2 --> 이런 순서로 하는 경우 0을 지우고 1로 넘어갈때,
+                //0을 지우는 순간 1이 0으로 바뀌기때문에 Collection이 변경되었습니다 Exception 발생
+                //그렇기때문에 Remove등으로 지울때는 항상 역순으로 삭제
+                for(int i = workBook.Worksheets.Count; i > 0; i--)
+                {
+                    workBook.Worksheets.Delete(i);
+                }
+
+                //Excel의 ListObject로 저장됩니다
+                workBook.Worksheets.Add(dataGridView1.DataSource as DataTable);
+
+                workBook.Save();
             }
         }
     }

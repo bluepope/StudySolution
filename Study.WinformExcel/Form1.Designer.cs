@@ -30,16 +30,18 @@ namespace Study.WinformExcel
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnImport2 = new System.Windows.Forms.Button();
             this.txtFileName = new System.Windows.Forms.TextBox();
             this.btnImport = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btnImport2 = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnExport);
             this.groupBox1.Controls.Add(this.btnImport2);
             this.groupBox1.Controls.Add(this.txtFileName);
             this.groupBox1.Controls.Add(this.btnImport);
@@ -50,6 +52,16 @@ namespace Study.WinformExcel
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "엑셀 가져오기";
+            // 
+            // btnImport2
+            // 
+            this.btnImport2.Location = new System.Drawing.Point(382, 19);
+            this.btnImport2.Name = "btnImport2";
+            this.btnImport2.Size = new System.Drawing.Size(99, 39);
+            this.btnImport2.TabIndex = 2;
+            this.btnImport2.Text = "가져오기(XlReader)";
+            this.btnImport2.UseVisualStyleBackColor = true;
+            this.btnImport2.Click += new System.EventHandler(this.btnImport2_Click);
             // 
             // txtFileName
             // 
@@ -77,20 +89,19 @@ namespace Study.WinformExcel
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 64);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 25;
             this.dataGridView1.Size = new System.Drawing.Size(725, 416);
             this.dataGridView1.TabIndex = 1;
             // 
-            // btnImport2
+            // btnExport
             // 
-            this.btnImport2.Location = new System.Drawing.Point(382, 19);
-            this.btnImport2.Name = "btnImport2";
-            this.btnImport2.Size = new System.Drawing.Size(99, 39);
-            this.btnImport2.TabIndex = 2;
-            this.btnImport2.Text = "가져오기(XlReader)";
-            this.btnImport2.UseVisualStyleBackColor = true;
-            this.btnImport2.Click += new System.EventHandler(this.btnImport2_Click);
+            this.btnExport.Location = new System.Drawing.Point(487, 19);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(99, 39);
+            this.btnExport.TabIndex = 3;
+            this.btnExport.Text = "저장하기(CloseXml)";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // Form1
             // 
@@ -115,6 +126,7 @@ namespace Study.WinformExcel
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.TextBox txtFileName;
         private System.Windows.Forms.Button btnImport2;
+        private System.Windows.Forms.Button btnExport;
     }
 }
 
