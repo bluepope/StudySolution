@@ -19,14 +19,33 @@ namespace Study01Winform
 
         private void StatusAddNumber(string numStr)
         {
-            lblStatus.Text += numStr;
-            lblStatus.Text = Convert.ToInt32(lblStatus.Text).ToString();
+            //호출자가 UI 스레드가 맞는가??
+            if (InvokeRequired)
+            {
+                //아니면 현재 Form의 Invoke를 통해 UI 스레드에서 호출하도록
+                Invoke(new MethodInvoker(() => {
+                    StatusAddNumber(numStr);
+                }));
+            }
+            else //아니면 그냥 바로 때려넣음
+            {
+                lblStatus.Text += numStr;
+                lblStatus.Text = Convert.ToInt32(lblStatus.Text).ToString();
+            }
         }
 
         private void btnNum_Click(object sender, EventArgs e)
         {
             //(Button)sender
             string numStr = (sender as Button).Text;
+
+            /*
+            Task.Run(() =>
+            {
+                StatusAddNumber(numStr);
+            });
+            */
+
             StatusAddNumber(numStr);
         }
 
