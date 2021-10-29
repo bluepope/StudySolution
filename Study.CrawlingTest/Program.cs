@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Study.CrawlingTest
 {
@@ -33,6 +34,7 @@ namespace Study.CrawlingTest
             CookieContainer cookieContainer = new();
             HttpClientHandler httpClientHandler = new();
             httpClientHandler.CookieContainer = cookieContainer;
+            httpClientHandler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
 
             HttpClient client = new(httpClientHandler);
             client.DefaultRequestHeaders.Add("Accept-Language", "ko-KR,en-US");
@@ -45,9 +47,9 @@ namespace Study.CrawlingTest
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));
 
-            /*
             //var data = await content.ReadAsStringAsync();
-            request.RequestUri = new Uri("https://weather.naver.com/today/09560101");
+            //request.RequestUri = new Uri("https://weather.naver.com/today/09560101");
+            request.RequestUri = new Uri("https://www.poom.co.kr/goods/initDetailGoods.action?goods_no=G21090234429&sale_shop_divi_cd=10&sale_shop_no=2110009257&sale_area_no=&tr_yn=N&conts_form_cd=100&conts_dist_no=&conts_divi_cd=20&rel_no=G21090234429&rel_divi_cd=10&openwinyn=&disp_ctg_no=&purch_age_limit_cd=00&eval_tab_yn=&target=_self");
             //request.Content = content;
             var task = Task.Run(async () =>
             {
@@ -60,17 +62,19 @@ namespace Study.CrawlingTest
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(request => request.Content(responseHtml));
 
-                var now_tempNode = document.QuerySelector("div.today_weather div.weather_area strong.current");
+                var tmpTextArea = document.QuerySelector("#tmp_html_area");
 
-                var now_tempTextNode = now_tempNode.ChildNodes.FirstOrDefault(node => node.NodeType == AngleSharp.Dom.NodeType.Text);
+                var innerDocument = await context.OpenAsync(request => request.Content(HttpUtility.HtmlDecode(tmpTextArea.InnerHtml)));
 
-                if (now_tempTextNode != null)
+                var imgNodeList = innerDocument.QuerySelectorAll("img");
+
+                foreach(var node in imgNodeList)
                 {
-                    Console.WriteLine(now_tempTextNode.TextContent);
+                    Console.WriteLine(node.OuterHtml);
                 }
             });
-            */
 
+            /*
             //2. Web API 사용
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -104,7 +108,7 @@ namespace Study.CrawlingTest
 
                 Console.WriteLine(jsonText);
             });
-            
+            */
             Task.WaitAll(task);
         }
     }
