@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Study01", "Study01\Study01.csproj", "{DBB4871C-5C81-44BB-8B1C-C1218C89F7C3}"
 EndProject
@@ -11,9 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Study.WinformExcel", "Study
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Study.CrawlingTest", "Study.CrawlingTest\Study.CrawlingTest.csproj", "{D43E65EC-4E26-4C23-B040-4158D239EB1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Study.MultiThreadingTest", "Study.MultiThreadingTest\Study.MultiThreadingTest.csproj", "{3ACCB285-CD79-422E-9263-886DBA8C662F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Study.MultiThreadingTest", "Study.MultiThreadingTest\Study.MultiThreadingTest.csproj", "{3ACCB285-CD79-422E-9263-886DBA8C662F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Study.MultiThreadConsoleTest", "Study.MultiThreadConsoleTest\Study.MultiThreadConsoleTest.csproj", "{A5DC6A57-EC99-49EC-B7B0-93CA7E287AE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Study.MultiThreadConsoleTest", "Study.MultiThreadConsoleTest\Study.MultiThreadConsoleTest.csproj", "{A5DC6A57-EC99-49EC-B7B0-93CA7E287AE5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Study.ReflectionConsoleTest", "Study.ReflectionConsoleTest\Study.ReflectionConsoleTest.csproj", "{C7B2DF88-C1D6-4C4B-9334-5C0289C74572}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Study.Lib", "Study.Lib\Study.Lib.csproj", "{2BCA9704-71D1-4349-B5D7-C57F4FD9921D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{A5DC6A57-EC99-49EC-B7B0-93CA7E287AE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5DC6A57-EC99-49EC-B7B0-93CA7E287AE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5DC6A57-EC99-49EC-B7B0-93CA7E287AE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7B2DF88-C1D6-4C4B-9334-5C0289C74572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7B2DF88-C1D6-4C4B-9334-5C0289C74572}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7B2DF88-C1D6-4C4B-9334-5C0289C74572}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7B2DF88-C1D6-4C4B-9334-5C0289C74572}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BCA9704-71D1-4349-B5D7-C57F4FD9921D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BCA9704-71D1-4349-B5D7-C57F4FD9921D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BCA9704-71D1-4349-B5D7-C57F4FD9921D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BCA9704-71D1-4349-B5D7-C57F4FD9921D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
