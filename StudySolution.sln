@@ -15,9 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Study.MultiThreadingTest", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Study.MultiThreadConsoleTest", "Study.MultiThreadConsoleTest\Study.MultiThreadConsoleTest.csproj", "{A5DC6A57-EC99-49EC-B7B0-93CA7E287AE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Study.ReflectionConsoleTest", "Study.ReflectionConsoleTest\Study.ReflectionConsoleTest.csproj", "{C7B2DF88-C1D6-4C4B-9334-5C0289C74572}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Study.ReflectionConsoleTest", "Study.ReflectionConsoleTest\Study.ReflectionConsoleTest.csproj", "{C7B2DF88-C1D6-4C4B-9334-5C0289C74572}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Study.Lib", "Study.Lib\Study.Lib.csproj", "{2BCA9704-71D1-4349-B5D7-C57F4FD9921D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Study.Lib", "Study.Lib\Study.Lib.csproj", "{2BCA9704-71D1-4349-B5D7-C57F4FD9921D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Study.DatabaseTest", "Study.DatabaseTest\Study.DatabaseTest.csproj", "{120C0D01-2554-4778-AA36-9DAA6B8CB722}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{2BCA9704-71D1-4349-B5D7-C57F4FD9921D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BCA9704-71D1-4349-B5D7-C57F4FD9921D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BCA9704-71D1-4349-B5D7-C57F4FD9921D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{120C0D01-2554-4778-AA36-9DAA6B8CB722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{120C0D01-2554-4778-AA36-9DAA6B8CB722}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{120C0D01-2554-4778-AA36-9DAA6B8CB722}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{120C0D01-2554-4778-AA36-9DAA6B8CB722}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
