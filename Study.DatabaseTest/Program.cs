@@ -65,6 +65,22 @@ WHERE ([t].[Col1] = 1) OR ([t].[Col2] LIKE N'Test%')
 
                 var sample = query.ToList();
 
+                //LEFT Outer JOIN 예시
+                var outerjoin = from a in db.Samples
+                                join b in db.Blogs
+                                on 
+                                new { a.Col1, a.Col2 } equals 
+                                new { Col1 =  b.BlogId, Col2 = b.Url }
+                                into btemp
+                                from bl in btemp.DefaultIfEmpty()
+                                //where
+                                orderby a.Col1
+                                select new
+                                {
+                                    a.Col1,
+                                    bl.Url
+                                };
+
                 //sample.Col2 = "ㅁㄴ야ㅏ렁니ㅓㄹ";
                 db.SaveChanges();
 
