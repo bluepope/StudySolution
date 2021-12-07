@@ -1,7 +1,13 @@
 ﻿
 using Microsoft.Data.SqlClient;
 
+using Study.DatabaseTest.DbClass;
+
 using System.Data;
+using Dapper;
+using Study.DatabaseTest.Models;
+using Study.DatabaseTest.EfCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Study.DatabaseTest
 {
@@ -10,78 +16,94 @@ namespace Study.DatabaseTest
         static void Main(string[] args)
         {
             string connectionString = "Server=nas.hyunmo.net;Database=Test;User Id=test;Password=test1234;TrustServerCertificate=True";
-
             string searchText = "test";
 
-
-            //1. ADO.NET 을 통한 Database 접근
-            DataTable dt = new DataTable();
-
-            //ConnectionPool 최소한으로 유지되므로 실제로 반복한다 하더라도 커넥션은 1개만 연결되어있음
-            //for (int i = 0; i < 100; i++)
-            //{
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open(); //연결 됐다
-
-                SqlCommand command = connection.CreateCommand();
-                command.CommandType = System.Data.CommandType.Text;
-
-                command.CommandText = @$"
-SELECT
-	Col1
-    ,Col2
-FROM
-	tblSample
-WHERE
-    Col2 LIKE '%' + @searchText + '%'
-";
-                command.Parameters.AddWithValue("@searchText", searchText);
-
-                //SELECT
-                SqlDataReader reader = command.ExecuteReader();
-                dt.Load(reader);
-                /*
-                //INSERT UPDATE DELETE
-                command.CommandText = @$"
-UPDATE tblSample
-SET
-    Col2 = 'Test222'
-WHERE
-    Col1  = 1
-";
-                int r = command.ExecuteNonQuery();
-
-                Console.WriteLine($"UPDATE가 적용된 행의 수: {r}");
-                */
-            }
-            //}
-
-            foreach (DataRow row in dt.Rows)
-            {
-                Console.WriteLine($"{ row["Col1"]} - {row["Col2"]}");
-            }
-
-
-            //DataSet 은 DataTable 의 묶음
-            /*
-            DataSet ds = new DataSet();
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command);
-            sqlDataAdapter.Fill(ds);
-
-            Console.WriteLine(ds.Tables[0].Rows.Count);
-            */
-
-            //SP - Stored Procedure - 저장프로시저
+            //1. ADO.NET
+            //new AdoNetTest().Test(connectionString, searchText);
 
             //2.Dapper -- Micro ORM
             //Connection 객체만
             //Parameter / Select 를 class 가지고 일부만 ORM 기능을 활용하겠다 라는 목적
             //Query 익숙한 세대에게 편함
+            //new DapperTest().Test(connectionString, searchText);
 
             //3.EF - EF Core -- ORM  Code / DB First
             //DB 명령없이 C# 객체만 가지고 DB 를 활용할수 있도록
             //Query 사용하지 않음 --> 하지만 불필요한 쿼리가 생성될 수 있음
+
+            using (var db = new BlogDbContext())
+            {
+                //트랜잭션 이용
+                using (var tran = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        tran.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        tran.Rollback();
+                    }
+                }
+                /*
+SELECT TOP(1) [t].[Col1], [t].[Col2]
+FROM [tblSample] AS [t]
+WHERE ([t].[Col1] = 1) OR ([t].[Col2] LIKE N'Test%')
+                 */
+
+                var query = db.Samples.Where(s => s.Col1 > 1);
+                query = query.Where(s => s.Col1 < 3);
+
+                //query = query.Where(s => s.Col2.Contains("테슽")); //%테슽%
+                query = query.Where(s => EF.Functions.Like(s.Col2, "테슽%"));
+
+                if (1 == 2)
+                {
+                    query = query.OrderBy(s => s.Col1);
+                }
+
+                var sample = query.ToList();
+
+                //sample.Col2 = "ㅁㄴ야ㅏ렁니ㅓㄹ";
+                db.SaveChanges();
+
+                // Create
+                /*
+exec sp_executesql N'SET NOCOUNT ON;
+INSERT INTO [Blogs] ([Url])
+VALUES (@p0);
+SELECT [BlogId]
+FROM [Blogs]
+WHERE @@ROWCOUNT = 1 AND [BlogId] = scope_identity();
+
+',N'@p0 nvarchar(2000)',@p0=N'http://blogs.msdn.com/adonet'
+                 */
+                Console.WriteLine("Inserting a new blog");
+                db.Blogs.Add(new BlogModel { Url = "http://blogs.msdn.com/adonet" });
+                db.SaveChanges();
+
+                // Read
+                Console.WriteLine("Querying for a blog");
+                var blog = db.Blogs
+                    .Where(b => b.BlogId == 2)
+                    //.Include(b => b.Posts)
+                    .OrderBy(b => b.BlogId)
+                    .First();
+
+                // Update
+                Console.WriteLine("Updating the blog and adding a post");
+
+                blog.Url = "https://devblogs.microsoft.com/dotnet";
+                blog.Posts.Add(
+                    new PostModel { Title = "Hello World", Content = "I wrote an app using EF Core!" });
+                db.SaveChanges();
+
+                // Delete
+                Console.WriteLine("Delete the blog");
+                db.Remove(blog);
+                db.SaveChanges();
+            }
         }
     }
 }
