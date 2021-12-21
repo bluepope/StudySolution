@@ -1,4 +1,5 @@
-﻿using Study.Core.Contexts;
+﻿using Study.Controls;
+using Study.Core.Contexts;
 using Study.Core.Entities;
 
 using System;
@@ -11,9 +12,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Study.ProjectApp1
+namespace Study.Module.Manage
 {
-    public partial class PersonManger : UserControl
+    public partial class PersonManger : StudyUserControl
     {
         public PersonManger()
         {
@@ -40,6 +41,14 @@ namespace Study.ProjectApp1
             {
                 dataGridView1.DataSource = context.StudyPersons?.Where(s => 1 == 1).ToList();
             }
+        }
+
+        public override void OnSearch()
+        {
+            base.OnSearch();
+
+            //기능 실행
+            System.Windows.Forms.MessageBox.Show("조회 버튼 클릭");
         }
     }
 }

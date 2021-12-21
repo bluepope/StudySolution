@@ -1,4 +1,4 @@
-﻿namespace Study.ProjectApp1
+﻿namespace Study.Module.Manage
 {
     partial class PersonManger
     {
@@ -37,6 +37,7 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
+            this.studyTextbox1 = new Study.Controls.StudyTextbox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,9 +51,9 @@
             // 
             // btnLoad
             // 
-            this.btnLoad.Location = new System.Drawing.Point(372, 137);
+            this.btnLoad.Location = new System.Drawing.Point(500, 48);
             this.btnLoad.Name = "btnLoad";
-            this.btnLoad.Size = new System.Drawing.Size(107, 47);
+            this.btnLoad.Size = new System.Drawing.Size(79, 29);
             this.btnLoad.TabIndex = 25;
             this.btnLoad.Text = "조회";
             this.btnLoad.UseVisualStyleBackColor = true;
@@ -96,6 +97,7 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(87, 23);
             this.txtName.TabIndex = 20;
+            this.txtName.Tag = "";
             // 
             // label1
             // 
@@ -116,10 +118,19 @@
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
+            // studyTextbox1
+            // 
+            this.studyTextbox1.HiddenValue = null;
+            this.studyTextbox1.Location = new System.Drawing.Point(319, 153);
+            this.studyTextbox1.Name = "studyTextbox1";
+            this.studyTextbox1.Size = new System.Drawing.Size(100, 23);
+            this.studyTextbox1.TabIndex = 27;
+            // 
             // PersonManger
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.studyTextbox1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.dtBitrhDate);
@@ -148,5 +159,6 @@
         private TextBox txtName;
         private Label label1;
         private Button btnAdd;
+        private Controls.StudyTextbox studyTextbox1;
     }
 }

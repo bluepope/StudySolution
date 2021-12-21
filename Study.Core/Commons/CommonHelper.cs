@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Study.ProjectApp1.Commons
+namespace Study.Core
 {
     public class CommonHelper
     {

@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 
+using Study.Core;
 using Study.Core.Contexts;
-using Study.ProjectApp1.Commons;
 
 namespace Study.ProjectApp1
 {

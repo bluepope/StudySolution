@@ -9,7 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Study.Controls\Study.Controls.csproj" />
     <ProjectReference Include="..\Study.Core\Study.Core.csproj" />
+    <ProjectReference Include="..\Study.Module.Manage\Study.Module.Manage.csproj" />
   </ItemGroup>
 
   <ItemGroup>
